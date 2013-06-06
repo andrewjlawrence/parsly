@@ -38,11 +38,11 @@ template <typename In, typename Out>
 struct IParser
 {	
 	typedef  typename Reader<In>::IndexT PosT;
-	typedef std::pair< Result<Out>, PosT> ResultPosPair;
-	typedef Cache<In, Out, PosT, ResultPosPair > CacheT;
-	typedef Maybe< ResultPosPair > MaybeValue; 
+	typedef std::pair<Result<Out>, PosT> ResultPosPair;
+	typedef Cache<In, Out, PosT, ResultPosPair> CacheT;
+	typedef Maybe<ResultPosPair> MaybeValue; 
 
-	IParser() : trace(false)
+	IParser() :trace(false)
 	{
 		this->setName(to_string(this));
 	}

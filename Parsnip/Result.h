@@ -49,9 +49,7 @@ private:
 	Maybe<Out> myData;
 };
 
-/* 
-	If Out type if void no need to store any data.
-*/
+// If Out type if void no need to store any data.
 template <>
 struct Result<void>
 {

@@ -24,26 +24,19 @@
 
 #include <map>
 #include "CacheBase.h"
+
 namespace Parsnip
 {
 
 template<typename S, typename T> 
 struct Memoizer
 {
-	Memoizer() 
-	{}
-
-	~Memoizer()
-	{}
-
-
 	typedef typename std::map<S,T>::iterator MapIter;
 	
 	bool contains(const S& input)
 	{
-		//check is input has already been memoized
+		// check if input has already been memoized
 		MapIter iter = memos.find(input);
-		
 		return !(iter == memos.end()); 
 	}
 
@@ -61,7 +54,6 @@ struct Memoizer
 
 	T memo(S input, const T& result)
 	{
-
 		//check is input has already been memoized
 		MapIter iter = memos.find(input);
 		
@@ -75,10 +67,7 @@ struct Memoizer
 		return (*iter).second;
 	}
 
-	virtual void clear()
-	{
-		memos.clear();
-	}
+	void clear() { memos.clear(); }
 
 private:
 	std::map<S, T> memos;

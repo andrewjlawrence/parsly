@@ -1,9 +1,5 @@
 
-#include "Accumulators.h"
-#include "Parser.h"
-#include "ParsnipBase.h"
-
-#include "ParsnipConfig.h"
+#include "Parsly.h"
 
 using namespace Parsnip;
 
