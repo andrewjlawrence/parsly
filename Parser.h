@@ -42,13 +42,23 @@ struct IParser
 	typedef Cache<In, Out, PosT, ResultPosPair > CacheT;
 	typedef Maybe< ResultPosPair > MaybeValue; 
 
+	IParser() : trace(false)
+	{
+		this->setName(to_string(this));
+	}
+	
+	virtual ~IParser() 
+	{
+		cache.removeParser(this);
+	}
+
 	virtual Result<Out> parse()
 	{
 		bool debug = trace || ParsnipConfig::traceAll;
 		
 		if (debug) 
 		{
-			Reader<In>::IndexT pos = Reader<In>::pos();
+			typename Reader<In>::IndexT pos = Reader<In>::pos();
 
 			ParsnipDebug::output_indent();
 
@@ -71,11 +81,11 @@ struct IParser
 
 		switch(ParsnipConfig::strategy)
 		{
-		case (SIMPLE):
+		case (ParsnipConfig::SIMPLE):
 			result =  this->eval();
 			break;
 
-		case (PACKRAT):
+		case (ParsnipConfig::PACKRAT):
 			result = parse_packrat();
 			break;
 		}
@@ -142,51 +152,27 @@ struct IParser
 		return ans;
 	}
 
+	virtual std::string getName() { return myName; }
+	virtual void setName(const std::string& str) { myName = str; }
 
-	IParser() : trace(false)
-	{
-		this->setName(to_string(this));
-	}
-
-	virtual ~IParser() 
-	{
-		cache.removeParser(this);
-	}
-	
-
-	virtual std::string getName()
-	{
-		return myName;
-	}
-
-	virtual void setName(const std::string& str)
-	{
-		myName = str;
-	}
-
-	virtual std::string toString(unsigned depth = 0)
+	virtual std::string toString(unsigned int depth = 0)
 	{
 		std::string str;
-		for (unsigned i =0; i < depth; ++i)
-		{
+		for (unsigned int i = 0; i < depth; ++i)
 			str += "\t";
-		}
 		str += getName();
 		str += "\n";
 		return str;
 	}
 
-	void setTrace(bool b) 
-	{
-		trace = b;
-	}
+	void setTrace(bool b) { trace = b; }
 
 protected:
-	virtual Result<Out> eval() =0;
-
+	virtual Result<Out> eval() = 0;
 
 private:
 	static CacheT cache;
+
 	std::string myName;
 	bool trace;
 };
@@ -199,100 +185,25 @@ typename IParser<In, Out>::CacheT IParser<In, Out>::cache;
 	because C++ doesn't yet
 	have template typedefs
 */
+
 template <typename In, typename Out>
-struct Parser
-{
-	typedef ptr< IParser< In, Out > > type;
-};
+using Parser = std::shared_ptr<IParser<In, Out>>;
 
 
 template<typename In, typename Out>
-ptr< IParser<In, Out> > operator >>= (const std::string& name, ptr< IParser<In, Out> > p)
+std::shared_ptr<IParser<In, Out>> operator >>= (const std::string& name, std::shared_ptr<IParser<In, Out>> p)
 {
 	p->setName(name);
 	return p;
 }
 
 template<typename In, typename Out>
-ptr< IParser<In, Out> > operator >>= (ptr< IParser<In, Out> > p, const std::string& name)
+std::shared_ptr<IParser<In, Out>> operator >>= (std::shared_ptr<IParser<In, Out>> p, const std::string& name)
 {
 	p->setName(name);
 	return p;
 }
 
-
-/*
-template <typename In, typename Out>
-struct ManyTillParser : public IParser
-{
-	ManyTillParser(ptr<IParser<In, Out> > s, ptr<IParser<In, Out> > t, int _min, int _max) : myParser(s), test(t), min(_min), max(_max) {}
-	
-	virtual Result<Out> eval()
-	{
-		std::string accumStr;
-		iterator currIter= start;
-		Result<Out> value, testOut;
-		
-		for (int i = 0; i < max; ++i)
-		{
-			if (currIter == finish)
-			{
-				return Result<Out>("unexpected end of input", start, FAIL);
-			}
-			
-			// test to see if end condition has been met 
-			testOut = test->parse(currIter, finish);
-			if (testOut.state == OK)
-			{
-				if (i < min) break;
-				else  return Result<Out>(accumStr, testOut.iter);
-			}
-			
-			// if not at the end, continue scanning 
-			value = myParser->parse(currIter, finish);
-		
-			if (value.state==OK) 
-			{
-				currIter = value.iter;
-				accumStr += value.get();
-			}
-			else { break; }
-		} 
-		
-		return Result<Out>("never reached expected input",  start, FAIL);
-		
-
-		
-	}
-	ptr<IParser<In, Out> >& myParser; 
-	ptr<IParser<In, Out> > test;
-	int min, max;
-};
-
-
-template <typename In, typename Out>
-ptr<IParser<In, Out> > manyTill(ptr<IParser<In, Out> > a, ptr<IParser<In, Out> > test, int min = 0, int max = INT_MAX)
-{
-	return  ManyTillParser(a, test, min, max);
-}
-
-
-template <typename In, typename Out>
-ptr<IParser<In, Out> > manyTill1(ptr<IParser<In, Out> > a, ptr<IParser<In, Out> > test)
-{
-	return manyTill(a, test, 1);
-}
-
-
-template <typename In, typename Out>
-ptr<IParser<In, Out> > atleastTill(ptr<IParser<In, Out> > a, ptr<IParser<In, Out> > test, int min)
-{
-	return manyTill(a, test, min);
-}
-
-*/
-
-
-}
+} // namespace
 
 #endif

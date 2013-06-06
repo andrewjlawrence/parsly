@@ -40,18 +40,14 @@ struct IParser;
 template<typename In, typename Out, typename DataT, typename ValueT> 
 struct Cache : public CacheBase
 {
-
-	Cache() 
-	{
-		CacheBase::add_cache(this);
-	}
-
-	~Cache() 
-	{
-		CacheBase::remove_cache(this);
-	}
-
+	struct Key;
 	typedef IParser<In, Out>* ParserT;
+
+	typedef std::map<Key, ValueT> MapT;
+	typedef typename MapT::iterator MapIter;
+
+	typedef std::set<ParserT> SetT;
+	typedef typename SetT::iterator SetIter;
 
 	struct Key
 	{
@@ -67,13 +63,8 @@ struct Cache : public CacheBase
 
 	};
 
-	typedef Key KeyT;
-
-	typedef std::map<KeyT, ValueT> MapT;
-	typedef typename MapT::iterator MapIter;
-
-	typedef std::set<ParserT> SetT;
-	typedef typename SetT::iterator SetIter;
+	Cache() { CacheBase::add_cache(this); }
+	~Cache() { CacheBase::remove_cache(this); }
 
 	Maybe<ValueT> get(ParserT parser_ptr, const DataT& data)
 	{
@@ -88,7 +79,7 @@ struct Cache : public CacheBase
 	
 	void insert(ParserT parser_ptr, const DataT& data, const ValueT& value)
 	{
-		KeyT key(parser_ptr, data);
+		Key key(parser_ptr, data);
 
 		//check is key already exists
 		MapIter iter = memos.find(key);
@@ -111,22 +102,16 @@ struct Cache : public CacheBase
 			
 			while (iter != end)
 			{
-				KeyT currKey = (*iter).first;
+				Key currKey = (*iter).first;
 				if (currKey.parser == parser_ptr)
-				{
 					memos.erase(iter++);
-				}
 				else
-				{
 					++iter;
-				}
 			} 
 		}
 
 		if (!unique_parsers.empty())
-		{
 			unique_parsers.erase(parser_ptr);
-		}
 	}
 
 	
@@ -136,10 +121,10 @@ struct Cache : public CacheBase
 		memos.clear();
 	}
 
+protected:
 	MapT memos;
 	SetT unique_parsers;
 };
-
 
 }
 
