@@ -2,45 +2,64 @@
 #ifndef PARSLY_H
 #define PARSLY_H
 
+#include <memory>
+#include <string>
+#include <tuple>
+
+namespace Parsly {
+
 /*
-#include "core/Accumulators.h"
-#include "core/Cache.h"
-#include "core/CacheBase.h"
-#include "core/CallParser.h"
-#include "core/CharCombinators.h"
-#include "core/CharParser.h"
-#include "core/CharRangeParser.h"
-#include "core/ChoiceParser.h"
-#include "core/ConversionFunctions.h"
-#include "core/CreateParser.h"
-#include "core/FailParser.h"
-#include "core/LazyParser.h"
-#include "core/LongerParser.h"
-#include "core/ManyParser.h"
-#include "core/Maybe.h"
-#include "core/NotParser.h"
-#include "core/OneOfParser.h"
-#include "core/OpTable.h"
-#include "core/OptionalParser.h"
-#include "core/Parser.h"
-#include "core/Parsnip.h"
-#include "core/ParsnipBase.h"
-#include "core/ParsnipConfig.h"
-#include "core/ParsnipDebug.h"
-#include "core/PrettyPrinters.h"
-#include "core/Reader.h"
-#include "core/ReduceParser.h"
-#include "core/Reducers.h"
-#include "core/Result.h"
-#include "core/SepByParser.h"
-#include "core/SeqOperators.h"
-#include "core/SeqVecOperators.h"
-#include "core/SkipManyParser.h"
-#include "core/SkipParser.h"
-#include "core/StringCombinators.h"
-#include "core/StringConcatParser.h"
-#include "core/StringParser.h"
-#include "core/SucceedParser.h"
-#include "core/Whitespace.h"
+#include "Parsnip/Accumulators.h"
+#include "Parsnip/Cache.h"
+#include "Parsnip/CacheBase.h"
+#include "Parsnip/CallParser.h"
+#include "Parsnip/CharCombinators.h"
+#include "Parsnip/CharParser.h"
+#include "Parsnip/CharRangeParser.h"
+#include "Parsnip/ChoiceParser.h"
+#include "Parsnip/ConversionFunctions.h"
+#include "Parsnip/CreateParser.h"
+#include "Parsnip/FailParser.h"
+#include "Parsnip/LazyParser.h"
+#include "Parsnip/LongerParser.h"
+#include "Parsnip/ManyParser.h"
+#include "Parsnip/Maybe.h"
+#include "Parsnip/NotParser.h"
+#include "Parsnip/OneOfParser.h"
+#include "Parsnip/OpTable.h"
+#include "Parsnip/OptionalParser.h"
+#include "Parsnip/Parser.h"
+#include "Parsnip/Parsnip.h"
+#include "Parsnip/ParsnipBase.h"
+#include "Parsnip/ParsnipConfig.h"
+#include "Parsnip/ParsnipDebug.h"
+#include "Parsnip/PrettyPrinters.h"
+#include "Parsnip/Reader.h"
+#include "Parsnip/ReduceParser.h"
+#include "Parsnip/Reducers.h"
+#include "Parsnip/Result.h"
+#include "Parsnip/SepByParser.h"
+#include "Parsnip/SeqOperators.h"
+#include "Parsnip/SeqVecOperators.h"
+#include "Parsnip/SkipManyParser.h"
+#include "Parsnip/SkipParser.h"
+#include "Parsnip/StringCombinators.h"
+#include "Parsnip/StringConcatParser.h"
+#include "Parsnip/StringParser.h"
+#include "Parsnip/SucceedParser.h"
+#include "Parsnip/Whitespace.h"
 */
+
+	using std::tuple;
+	using std::string;
+	using std::shared_ptr;
+
+#include "core/CharParser.h"
+#include "core/Maybe.h" //@TODO C++14 optional eventually...
+#include "core/Parser.h"
+#include "core/StringParser.h"
+#include "core/Types.h"
+
+}
+
 #endif

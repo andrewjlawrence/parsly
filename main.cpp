@@ -1,9 +1,29 @@
 
 #include "Parsly.h"
 
-using namespace Parsnip;
+#include <string>
+#include <iostream>
+
+//using namespace Parsnip;
+using namespace std;
 
 int main()
 {
-	debug(4);
+	CharParser c('t');
+	StringParser s("tes");
+	auto result = s(std::string("test"));
+
+	if (result)
+		cout << std::get<0>(*result) << endl << std::get<1>(*result) << endl;
 }
+
+/*
+ * Haskell syntax:
+
+csvFile :: GenParser Char st [[String]]
+csvFile = 
+    do result <- many line
+       eof
+       return result
+ */
+
