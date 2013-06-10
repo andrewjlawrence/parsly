@@ -2,11 +2,14 @@
 #ifndef PARSLY_H
 #define PARSLY_H
 
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
 
 namespace Parsly {
+#include "core/Maybe.h" //@TODO C++14 optional eventually...
 
 /*
 #include "Parsnip/Accumulators.h"
@@ -50,15 +53,9 @@ namespace Parsly {
 #include "Parsnip/Whitespace.h"
 */
 
-	using std::tuple;
-	using std::string;
-	using std::shared_ptr;
-
 #include "core/CharParser.h"
-#include "core/Maybe.h" //@TODO C++14 optional eventually...
 #include "core/Parser.h"
 #include "core/StringParser.h"
-#include "core/Types.h"
 
 }
 

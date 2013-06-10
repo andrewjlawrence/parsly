@@ -4,8 +4,6 @@
 #pragma once
 
 #include "Parser.h"
-#include <string>
-#include <algorithm>
 
 class StringParser : public Parser<std::string> {
 public:
@@ -17,8 +15,7 @@ public:
 	: matchStr(str)
 	{}
 
-	virtual Maybe<std::tuple<std::string, std::string>> operator() (const std::string& input) override
-	{
+	virtual Maybe<std::tuple<std::string, std::string>> operator() (const std::string& input) override {
 		if (!input.empty()
 			and std::equal(
 				input.begin(),
