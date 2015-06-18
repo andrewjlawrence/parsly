@@ -2,6 +2,8 @@
 
 all: main
 
+llvm:
+	clang++ -Wall -pedantic -std=c++11 -stdlib=libc++ -O4 -S -emit-llvm ./main.cpp
 
 main: 
-	clang++ -std=c++11 -stdlib=libc++ ./main.cpp
+	clang++ -Wall -pedantic -std=c++11 -stdlib=libc++ -O4 ./main.cpp

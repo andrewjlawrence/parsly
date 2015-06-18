@@ -10,6 +10,8 @@
 
 namespace Parsly {
 #include "core/Maybe.h" //@TODO C++14 optional eventually...
+//#include "core/OptionParser.h"
+//#include "core/ThenParser.h"
 
 /*
 #include "Parsnip/Accumulators.h"
@@ -53,9 +55,9 @@ namespace Parsly {
 #include "Parsnip/Whitespace.h"
 */
 
-#include "core/CharParser.h"
 #include "core/Parser.h"
-#include "core/StringParser.h"
+#include "core/CharParser.h"
+//#include "core/StringParser.h"
 
 }
 

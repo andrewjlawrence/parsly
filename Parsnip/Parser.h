@@ -42,9 +42,9 @@ struct IParser
 	typedef Cache<In, Out, PosT, ResultPosPair> CacheT;
 	typedef Maybe<ResultPosPair> MaybeValue; 
 
-	IParser() :trace(false)
+	iparser() :trace(false)
 	{
-		this->setName(to_string(this));
+		this->setname(to_string(this));
 	}
 	
 	virtual ~IParser() 

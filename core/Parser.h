@@ -5,11 +5,13 @@
 #pragma once
 
 ////////////////////////////////////////////////////////////////////////////////
-template <typename T>
-class Parser {
-public:
-	virtual Maybe<std::tuple<T, std::string>> operator() (const std::string& input) = 0;
-protected:
-private:
-};
+template<typename ParserOutput, typename ParserInput = std::string>
+using ParserResultT = Maybe<std::pair<ParserOutput, ParserInput>>;
+
+template<typename ParserOutput, typename ParserInput = std::string>
+using Parser = std::function<ParserResultT<ParserOutput, ParserInput>(ParserInput)>;
+
+/*template<typename ParserOutput>
+using ParserResultT = typename Parser<ParserOutput>::result_type;
+*/
 

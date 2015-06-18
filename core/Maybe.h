@@ -27,7 +27,7 @@ public:
 	}
 
 	const T& operator*() const { return value; }
-	const T& operator->() const { return value; }
+	//const T& operator->() const { return value; }
 
 private:
 	T value;

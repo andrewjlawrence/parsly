@@ -6,19 +6,31 @@
 
 #include "Parser.h"
 
-class CharParser : public Parser<char> {
+#ifdef CLASSES
+class Char : public Parser<char> {
 public:
-	CharParser(char c)
+	Char(char c)
 	:matchchar(c)
 	{}
 
-	virtual Maybe<std::tuple<char, std::string>> operator() (const std::string& input) override
-	{
+	virtual Maybe<std::pair<char, std::string>> operator() (std::string input) {
 		if (!input.empty() and input[0] == matchchar)
-			return Just(std::make_tuple(matchchar, input.substr(1)));
-		return Maybe<std::tuple<char, std::string>>(std::make_tuple('\0', input), false);
+			return Just(std::make_pair(matchchar, input.substr(1)));
+		return Maybe<std::pair<char, std::string>>(std::make_tuple('\0', input), false);
 	}
 protected:
 private:
 	char matchchar;
 };
+
+#else
+
+Parser<char> Char(char matchchar) {
+	return [=] (std::string input) -> ParserResultT<char> {
+		if (!input.empty() and input[0] == matchchar)
+			return Just(std::make_pair(matchchar, input.substr(1)));
+		return Maybe<std::pair<char, std::string>>(std::make_pair('\0', input), false);
+	};
+}
+
+#endif
